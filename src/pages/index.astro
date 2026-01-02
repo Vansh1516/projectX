@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+---
+
+<BaseLayout title="Vansh Moodhoo">
+  
+  <header style="margin-bottom: 8rem;">
+    <div class="identity-row">
+      <div class="avatar-frame">
+        <img src="/me.jpg" class="avatar-img" alt="Vansh Moodhoo" />
+      </div>
+
+      <div class="identity-text">
+        <h1 class="main-name">Vansh Shayaan Moodhoo.</h1>
+        <p class="sub-text">
+          Mechanical Engineering Student at <strong><a href="https://www.htwsaar.de/" target="_blank">HTW Saar</a></strong>.<br>
+          Based in Germany.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <Card title="01 — The Mindset" class="fade-card">
+      <p class="prose">
+        I am currently obsessed with the concept of <span class="highlight">resistance</span>. 
+      </p>
+      <p class="prose">
+        In engineering, resistance is friction, stress, and thermal load. In the ocean, it is pressure. In the gym, it is gravity.
+      </p>
+      <p class="prose">
+        My goal is not to avoid these forces, but to design systems that thrive under them. I am a student of structure, discipline, and the quiet confidence that comes from knowing how things work.
+      </p>
+    </Card>
+
+    <Card title="02 — Current Focus" class="fade-card">
+      <div class="lab-grid">
+        <div class="lab-item">
+          <span class="lab-title">Material Science</span>
+          <p class="lab-desc">Studying how materials respond to stress, heat, and load. Focusing on structure, strength, and failure in real systems.</p>
+        </div>
+
+        <div class="lab-item">
+          <span class="lab-title">Mechanical design and CAD</span>
+          <p class="lab-desc">I am currently learning the basics of CAD. My focus is on understanding how to build clean, logical models rather than just complex shapes.</p>
+        </div>
+
+        <div class="lab-item">
+          <span class="lab-title">Using Python and MATLAB for simple engineering analysis</span>
+          <p class="lab-desc">I use them to explore and make sense of simple engineering problems.</p>
+        </div>
+
+        <div class="lab-item">
+          <span class="lab-title">Improving my technical German</span>
+          <p class="lab-desc">I am actively working on my technical vocabulary to be able to work effectively in German environments.</p>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="03 — Outside the Lab" class="fade-card">
+      <div class="lab-grid">
+        <div class="lab-item">
+          <span class="lab-title">The Gym</span>
+          <p class="lab-desc">The gym is where I build discipline. I train 4–5 times a week, focusing on strength, consistency, and mental clarity.</p>
+        </div>
+
+        <div class="lab-item">
+          <span class="lab-title">Curiosity</span>
+          <p class="lab-desc">I enjoy understanding how things work, not just using them. This shows up in engineering, training, and everyday habits.</p>
+        </div>
+
+        <div class="lab-item">
+          <span class="lab-title">Scuba Diving</span>
+          <p class="lab-desc">Diving is my strongest passion. Being underwater teaches me to stay calm under pressure and fully disconnect.</p>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="04 — Contact" class="fade-card">
+      <p class="prose">
+        I am early in my academic path and focused on steady technical growth.
+        Open to conversations related to engineering practice, design, or training.
+      </p>
+      <div class="link-group">
+        <a href="mailto:vansh.moodhoo@gmail.com" class="hover-link">Email</a>
+        <a href="https://www.linkedin.com/in/vansh-moodhoo-017779256/" class="hover-link">LinkedIn</a>
+      </div>
+    </Card>
+  </main>
+
+  <!-- Scroll Fade-in Script -->
+  <script>
+    const cards = document.querySelectorAll('.fade-card');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+</BaseLayout>
+
+<style>
+/* Identity Row + Avatar */
+.identity-row { display: flex; align-items: center; gap: 2.5rem; }
+.avatar-frame { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 1px solid var(--text-muted); flex-shrink: 0; }
+.avatar-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: grayscale(100%) contrast(1.1) sepia(15%); transition: filter 0.5s ease; }
+.avatar-frame:hover .avatar-img { filter: grayscale(80%) contrast(1.1) sepia(0%); }
+.main-name { font-size: 3rem; line-height: 1.1; margin: 0; }
+.sub-text { font-size: 1.25rem; color: var(--text-muted); margin-top: 0.5rem; }
+
+/* Lab Grid */
+.lab-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem; }
+.lab-item { display: flex; flex-direction: column; gap: 0.5rem; }
+.lab-title { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-style: italic; color: var(--text-main); }
+.lab-desc { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--text-muted); margin: 0; }
+
+/* Prose + Highlight */
+.prose { font-size: 1.05rem; margin-bottom: 1.5rem; max-width: 600px; color: var(--text-main); }
+.highlight { color: var(--accent); font-style: italic; }
+
+/* Links */
+.link-group { margin-top: 1.5rem; display: flex; gap: 1.5rem; }
+.hover-link { font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.hover-link:hover { border-color: var(--accent); }
+
+/* Card spacing + Fade Animation */
+.card { margin-bottom: 4.5rem; }
+.fade-card { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.fade-card.visible { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .identity-row { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .avatar-frame { width: 100px; height: 100px; }
+  .main-name { font-size: 2.25rem; }
+  .lab-grid { border-left: none; padding-left: 0; gap: 2rem; }
+  .card { margin-bottom: 3.5rem; }
+}
+</style>
