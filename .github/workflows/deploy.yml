@@ -2,34 +2,28 @@ name: Deploy to Home Lab
 
 on:
   push:
-    branches: [ "master" ]  # Or "main", check your branch name!
-
+    branches: [ "main", "master" ]  # Watches BOTH to be safe
+  workflow_dispatch:
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # <--- This tells it to run on YOUR Ubuntu server
+    runs-on: self-hosted
 
     steps:
-    # 1. Get the latest code
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    # 2. Install Dependencies
     - name: Install Dependencies
       run: npm install
 
-    # 3. Build the Site
     - name: Build Project
       run: npm run build
 
-    # 4. Deploy to Nginx
-    # We use rsync for a cleaner copy, or just cp
-    - - name: Move Files to Web Root
+    - name: Move Files to Web Root
       run: |
         echo "🚨 Deleting old files..."
         rm -rf /var/www/html/*
         
         echo "📂 Copying new files..."
-        # We copy the CONTENTS of dist, using dot notation to avoid subfolder issues
         cp -r dist/. /var/www/html/
         
         echo "🔍 Verifying new content..."
