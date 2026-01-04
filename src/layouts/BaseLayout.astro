@@ -82,10 +82,60 @@ const { title } = Astro.props;
         position: relative;
         z-index: 10;
       }
+      /* Navbar Styles */
+  .navbar {
+    /* 1. Remove the solid color */
+    background: transparent; 
+    
+    /* 2. Remove the line separating it from the page */
+    border: none;
+    box-shadow: none;
+    
+    /* 3. Keep spacing */
+    padding: 1.5rem 1rem; /* Added a bit more top padding for a cleaner look */
+  }
+
+  /* Ensure text is readable against your background */
+  .nav-brand {
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-decoration: none;
+    
+    /* Use 'inherit' to take the color from your main body setting */
+    color: inherit; 
+    opacity: 0.9;
+  }
+
+  .nav-links a {
+    margin-left: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    
+    /* Inherit allows it to match whatever page theme you are on */
+    color: inherit;
+    opacity: 0.7; /* Make links slightly dimmer than the logo */
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover {
+    opacity: 1; /* Brighten on hover */
+    color: #3b82f6; /* Optional: Keep a blue hover accent */
+  }
     </style>
   </head>
 
   <body>
+    <body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <a href="/" class="nav-brand"></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/projects">Projects</a>
+      </div>
+    </div>
+  </nav>
+  <slot /> </body>
     <!-- Ambient Background -->
     <div class="ambient-light">
       <div class="orb orb-1"></div>

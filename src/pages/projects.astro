@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/BaseLayout.astro';
+
+// --------------------------------------------------------
+// 🛠️ YOUR PROJECT DATABASE
+// Edit the details below to match your actual project.
+// --------------------------------------------------------
+const projects = [
+  {
+    title: "Home Lab",  // <--- REPLACE THIS
+    description: "You are looking at it! A personal portfolio hosted on a home server, featuring an automated CI/CD pipeline using GitHub Actions and self-hosted runners.",
+    tech: ["Astro", "Nginx", "Linux", "GitHub Actions", "CI/CD"],
+    link: "https://github.com/Vansh1516/projectX", //
+  },
+  {
+    title: "BotBro: Sarcastic AI Roommate Agent",
+description: "An intelligent Telegram bot that manages flat cleaning schedules, sets automated reminders, and performs web searches using a ReAct agent architecture. It leverages the Groq API to combine helpful household management with a sarcastic, German-infused personality that interacts naturally with roommates.",
+tech: ["Python", "Telegram API", "Groq API (Llama 3)", "DuckDuckGo Search", "AsyncIO"],
+    link: "https://github.com/Vansh1516/Stefan_Chatbot/tree/main", // Check if this link is right!
+  }
+];
+---
+
+<Layout title="Projects | Vansh Moodhoo">
+  <main class="container">
+    <h1 class="page-title">My Work</h1>
+    
+    <div class="project-grid">
+      {projects.map((project) => (
+        <div class="project-card">
+          <div class="card-content">
+            <h2>{project.title}</h2>
+            <p>{project.description}</p>
+            
+            <div class="tags">
+              {project.tech.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+          </div>
+          
+          <div class="card-footer">
+            <a href={project.link} class="btn" target="_blank">View Code &rarr;</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* 🎨 CONTAINER STYLES */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    color: inherit; /* 🟢 This ensures text matches your Home Page theme */
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: inherit; /* 🟢 Removed hardcoded white */
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  /* 💎 GLASS CARD DESIGN */
+  .project-card {
+    background: rgba(255, 255, 255, 0.05); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .project-card h2 {
+    color: inherit;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+  }
+
+  .project-card p {
+    color: inherit;
+    opacity: 0.8;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  /* 🏷️ GLASS TAGS (The Upgrade) */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    /* 🟢 Changed from solid grey to semi-transparent glass */
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: inherit;
+    
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .btn {
+    display: inline-block;
+    background: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+
+  .btn:hover {
+    background: #2563eb;
+  }
+</style>
