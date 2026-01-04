@@ -1,30 +1,44 @@
-name: Deploy to Home Lab
+name: Deploy to Home Lab (Docker)
 
 on:
   push:
-    branches: [ "main", "master" ]  # Watches BOTH to be safe
-  workflow_dispatch:
+    branches:
+      - main
+      - master
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: self-hosted
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Install Dependencies
-      run: npm install
+      # ---------------------------------------------------------
+      # 1. Build the Docker Image
+      # We tag (-t) the image as 'vansh-server'
+      # ---------------------------------------------------------
+      - name: Build Docker Image
+        run: docker build -t vansh-server .
 
-    - name: Build Project
-      run: npm run build
+      # ---------------------------------------------------------
+      # 2. Stop Old Container (if running)
+      # We look for a container named 'vansh-container'
+      # ---------------------------------------------------------
+      - name: Stop Old Container
+        run: |
+          docker stop vansh-container || true
+          docker rm vansh-container || true
 
-    - name: Move Files to Web Root
-      run: |
-        echo "🚨 Deleting old files..."
-        rm -rf /var/www/html/*
-        
-        echo "📂 Copying new files..."
-        cp -r dist/. /var/www/html/
-        
-        echo "🔍 Verifying new content..."
-        ls -la /var/www/html/
+      # ---------------------------------------------------------
+      # 3. Run New Container
+      # We start a new container named 'vansh-container'
+      # using the image 'vansh-server' we built in Step 1
+      # ---------------------------------------------------------
+      - name: Run New Container
+        run: |
+          docker run -d \
+            --name vansh-container \
+            --restart always \
+            -p 80:80 \
+            vansh-server
