@@ -1,5 +1,11 @@
 ---
 const { title } = Astro.props;
+
+// 1. Get the current URL path
+const pathname = new URL(Astro.request.url).pathname;
+
+// 2. Check if we are on the home page (handles "/" and empty string)
+const isHome = pathname === '/' || pathname === ''; 
 ---
 
 <html lang="en">
@@ -8,7 +14,6 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -74,91 +79,81 @@ const { title } = Astro.props;
         100% { transform: translate(0,0) scale(1); }
       }
 
-      /* Container */
-      .container {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 6rem 2rem;
-        position: relative;
-        z-index: 10;
-      }
       /* Navbar Styles */
-  .navbar {
-    /* 1. Remove the solid color */
-    background: transparent; 
-    
-    /* 2. Remove the line separating it from the page */
-    border: none;
-    box-shadow: none;
-    
-    /* 3. Keep spacing */
-    padding: 1.5rem 1rem; /* Added a bit more top padding for a cleaner look */
-  }
+      .navbar {
+        background: transparent; 
+        border: none;
+        box-shadow: none;
+        padding: 1.5rem 1rem;
+        position: relative;
+        z-index: 20; /* Ensures nav stays above the orbs */
+      }
 
-  /* Ensure text is readable against your background */
-  .nav-brand {
-    font-weight: 800;
-    font-size: 1.2rem;
-    text-decoration: none;
-    
-    /* Use 'inherit' to take the color from your main body setting */
-    color: inherit; 
-    opacity: 0.9;
-  }
+      .nav-content {
+        max-width: 900px; /* Matches your project container */
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-  .nav-links a {
-    margin-left: 1.5rem;
-    text-decoration: none;
-    font-weight: bold;
-    
-    /* Inherit allows it to match whatever page theme you are on */
-    color: inherit;
-    opacity: 0.7; /* Make links slightly dimmer than the logo */
-    transition: opacity 0.2s;
-  }
+      .nav-brand {
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: inherit; 
+        opacity: 0.9;
+      }
 
-  .nav-links a:hover {
-    opacity: 1; /* Brighten on hover */
-    color: #3b82f6; /* Optional: Keep a blue hover accent */
-  }
+      .nav-links a {
+        margin-left: 1.5rem;
+        font-weight: bold;
+        color: inherit;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+
+      .nav-links a:hover {
+        opacity: 1;
+        color: #3b82f6;
+      }
     </style>
   </head>
 
   <body>
-    <body>
-  <nav class="navbar">
-    <div class="nav-content">
-      <a href="/" class="nav-brand"></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/projects">Projects</a>
+    <nav class="navbar">
+      <div class="nav-content">
+        <a href="/" class="nav-brand" style={isHome ? "visibility: hidden;" : ""}>
+          Vansh Moodhoo
+        </a>
+        
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/projects">Projects</a>
+        </div>
       </div>
-    </div>
-  </nav>
-  <slot /> </body>
-    <!-- Ambient Background -->
+    </nav>
+
     <div class="ambient-light">
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
       <div class="orb orb-3"></div>
     </div>
 
-    <div class="container">
-      <slot />
-    </div>
-      <script>
-         const cards = document.querySelectorAll('.fade-card');
+    <slot />
 
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target); // animate once
-             }
-          });
-        }, { threshold: 0.15 });
+    <script>
+       const cards = document.querySelectorAll('.fade-card');
 
-        cards.forEach(card => observer.observe(card));
-      </script>
+       const observer = new IntersectionObserver(entries => {
+         entries.forEach(entry => {
+           if (entry.isIntersecting) {
+             entry.target.classList.add('visible');
+             observer.unobserve(entry.target); 
+            }
+         });
+       }, { threshold: 0.15 });
+
+       cards.forEach(card => observer.observe(card));
+    </script>
   </body>
 </html>
